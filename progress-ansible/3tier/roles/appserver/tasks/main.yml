@@ -1,0 +1,36 @@
+---
+- name: install tomcat
+  yum: 
+    name=tomcat state=latest
+
+- name: enable tomcat service
+  service:
+    name: tomcat
+    enabled: yes
+
+- name: create ansible tomcat directory
+  file:
+    path: /usr/share/tomcat/webapps/ROOT
+    state: directory
+
+- name: propagate index file for tomcat 
+  template:
+    src: index.html.j2
+    dest: /usr/share/tomcat/webapps/ROOT/index.html
+    mode: 0644
+  notify:
+  - restart tomcat
+
+- name: start tomcat
+  service:
+    name: tomcat
+    state: started
+
+  handlers:
+  - name: restart tomcat
+    service:
+      name: tomcat
+      state: restarted
+
+
+

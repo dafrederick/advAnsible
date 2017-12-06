@@ -1,0 +1,6 @@
+---
+
+- name: installing web client "httpie"
+  yum: name=httpie state=latest
+
+

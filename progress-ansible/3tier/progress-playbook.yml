@@ -1,0 +1,26 @@
+---
+- name: deploy common repos
+  hosts: frontends,apps,appdbs
+  become: yes
+  roles:
+    - common
+    - http-client
+
+- name: deploy haproxy
+  hosts: frontends
+  become: yes
+  roles: 
+    - haproxy
+  
+- name: deploy appservers
+  hosts: apps
+  become: yes
+  roles: 
+    - appserver
+
+- name: deploy postgres
+  hosts: appdbs
+  become: yes
+  roles:
+    - geerlingguy.postgresql
+      

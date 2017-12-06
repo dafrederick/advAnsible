@@ -1,0 +1,7 @@
+---
+
+- name: copy 3-tier-yum-repo into place
+  template:
+    src: open_three-tier-app.repo.j2
+    dest: /etc/yum.repos.d/open_three-tier-app.repo
+    mode: 0644

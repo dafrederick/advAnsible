@@ -32,6 +32,3 @@ handlers:
       name: tomcat
       state: restarted
 
-  tags:
-    - tomcat
-

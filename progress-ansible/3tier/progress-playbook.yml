@@ -3,24 +3,23 @@
   hosts: frontends,apps,appdbs
   become: yes
   roles:
-    - common
-    - http-client
+    - {role: common, tags: [ 'common' ]}
+    - {role: http-client, tags: [ 'common' ]}
 
 - name: deploy haproxy
   hosts: frontends
   become: yes
   roles: 
-    - haproxy
+    - {role: haproxy, tags: [ 'lb','haproxy' ]}
   
 - name: deploy appservers
   hosts: apps
   become: yes
   roles: 
-    - appserver
-
+    - {role: appserver, tags: [ 'appserver' ]}
 - name: deploy postgres
   hosts: appdbs
   become: yes
   roles:
-    - geerlingguy.postgresql
+    - {role: geerlingguy.postgresql, tags: [ 'db','postgres' ]}
       

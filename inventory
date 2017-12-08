@@ -1,4 +1,4 @@
-[3tierapp:vars]
+[GenericExample:vars]
 
 ###########################################################################
 ### Ansible Vars
@@ -6,28 +6,51 @@
 timeout=60
 ansible_become=yes
 ansible_ssh_user=ec2-user
-ansible_ssh_private_key_file="~/.ssh/879akey.pem"
-ansible_ssh_common_args="-o StrictHostKeyChecking=no"
-[3tierapp:children]
+
+
+[GenericExample:children]
+towers
 frontends
 apps
 appdbs
+windows
 support
 
+[towers]
+## These are the towers
+tower1.e056.internal public_host_name=tower1.e056.example.opentlc.com ssh_host=ec2-34-239-37-89.compute-1.amazonaws.com
+tower2.e056.internal public_host_name=tower2.e056.example.opentlc.com ssh_host=ec2-52-72-208-54.compute-1.amazonaws.com
+tower3.e056.internal public_host_name=tower3.e056.example.opentlc.com ssh_host=ec2-34-204-59-174.compute-1.amazonaws.com
 
 [frontends]
 ## These are the frontends
-frontend1.879a.internal ansible_ssh_host=frontend1.879a.example.opentlc.com
+frontend1.e056.internal ssh_host=ec2-35-153-243-244.compute-1.amazonaws.com
 
 [apps]
 ## These are the apps
-app1.879a.internal ansible_ssh_host=app1.879a.example.opentlc.com
-app2.879a.internal ansible_ssh_host=app2.879a.example.opentlc.com
+app1.e056.internal ssh_host=ec2-34-234-255-171.compute-1.amazonaws.com
+app2.e056.internal ssh_host=ec2-34-237-99-66.compute-1.amazonaws.com
 
 [appdbs]
 ## These are the appdbs
-appdb1.879a.internal ansible_ssh_host=appdb1.879a.example.opentlc.com
+appdb1.e056.internal ssh_host=ec2-34-233-177-61.compute-1.amazonaws.com
 
-## These are the support
+[windows]
+## These are the activedirectory servers
+ad1.e056.internal ssh_host=ad1.e056.example.opentlc.com ansible_password=jVMijRwLbI02gFCo2xkjlZ9lxEA7bm7zgg==
+
+
+## These are the supporthosts
 [support]
-support1.879a.internal ansible_ssh_host=support1.879a.example.opentlc.com
+support1.e056.internal ssh_host=ec2-52-206-240-74.compute-1.amazonaws.com
+support2.e056.internal ssh_host=ec2-34-202-11-255.compute-1.amazonaws.com
+
+[windows:vars]
+ansible_connection=winrm
+ansible_port=5986
+ansible_ssh_port=5986
+ansible_user=Administrator
+ansible_ssh_user=Administrator
+ansible_winrm_server_cert_validation=ignore
+ansible_winrm_transport=basic
+ansible_become=false
